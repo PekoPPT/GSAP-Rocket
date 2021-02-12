@@ -1,5 +1,6 @@
 import config from '../config';
 import EventEmitter from 'eventemitter3';
+import Animation from './custom/Animation';
 
 const EVENTS = {
   APP_READY: 'app_ready',
@@ -14,7 +15,7 @@ export default class Application extends EventEmitter {
     super();
 
     this.config = config;
-    this.data = { };
+    this.data = {};
 
     this.init();
   }
@@ -31,8 +32,10 @@ export default class Application extends EventEmitter {
    */
   async init() {
     // Initiate classes and wait for async operations here.
-
-    this.emit(Application.events.APP_READY);
+    this.data.animation = new Animation();
+    this.data.animation.start().then(() => {
+      this.emit(Application.events.APP_READY);
+    });
   }
 }
 
